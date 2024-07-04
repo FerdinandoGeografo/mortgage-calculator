@@ -1,0 +1,40 @@
+.btn {
+  font-family: inherit;
+  display: inline-block;
+  cursor: pointer;
+  padding: var(--spacing-200) var(--spacing-500);
+  outline: 0 none;
+  border: 0 none;
+  transition: all .4s;
+  position: relative;
+
+  &--primary {
+    background: var(--lime-100);
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 1000px;
+  }
+
+  &--link {
+    background: transparent;
+    padding: 0;
+    color: var(--slate-400);
+
+    &::after {
+      transition: all .4s;
+      content: "";
+      transform: scaleX(0);
+      position: absolute;
+      left: 0;
+      bottom: 1.5px;
+      width: 100%;
+      height: 1px;
+      background: var(--slate-300);
+    }
+
+    &:hover::after {
+      transform: scaleX(100%);
+    }
+  }
+}

@@ -1,17 +1,26 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormComponent } from './ui/form/form.component';
+import { ResultComponent } from './ui/result/result.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [FormComponent, ResultComponent],
   template: `
-    <h1>Welcome to {{title}}!</h1>
-
-    <router-outlet />
+    <main class="main">
+      <app-form />
+      <app-result />
+    </main>
   `,
-  styles: [],
+  styles: `
+    .main {
+      background: var(--white-100);
+      height: 60.6rem;
+      width: 1008px;
+      border-radius: 2.4rem;
+      overflow: hidden;
+      display: flex;
+    }
+  `,
 })
-export class AppComponent {
-  title = 'mortgage-calculator';
-}
+export class AppComponent {}

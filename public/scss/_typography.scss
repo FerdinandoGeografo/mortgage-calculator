@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-display: swap;
+  font-weight: 500, 700;
+  src: url('../fonts/PlusJakartaSans-VariableFont_wght.ttf'), url("../fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf") format("truetype");
+}
+
+body {
+  font-family: var(--ff);
+  color: var(--slate-500);
+}
+
+.text {
+  color: currentColor;
+
+  &--xl {
+    font-size: 5.6rem;
+  }
+
+  &--lg {
+    font-size: 2.4rem;
+  }
+
+  &--md {
+    font-size: 1.8rem;
+  }
+
+  &--xl,
+  &--lg,
+  &--md {
+    font-weight: var(--fw-bold);
+    line-height: 125%;
+    letter-spacing: -1px;
+  }
+
+  &--sm {
+    font-size: 1.6rem;
+  }
+
+  &--xs {
+    font-size: 1.4rem;
+  }
+
+  &--sm,
+  &--xs {
+    line-height: 150%;
+    font-weight: var(--fw-medium);
+  }
+}
