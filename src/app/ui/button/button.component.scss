@@ -15,6 +15,18 @@
     align-items: center;
     gap: var(--spacing-150);
     border-radius: 1000px;
+
+    &::after {
+      content: "";
+      z-index: 1;
+      position: absolute;
+      inset: 0;
+      transition: background .4s;
+    }
+
+    &:hover::after {
+      background: rgba(255, 255, 255, .5);
+    }
   }
 
   &--link {

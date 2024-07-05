@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 
 @Component({
   selector: 'app-result',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <section class="result">
-      @if(false) {
+      @if(result()) {
       <div class="result__data">
         <div class="result__head">
           <h2 class="text text--lg">Your results</h2>
@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
         <div class="card">
           <div class="card__header">
             <h4 class="text text--sm">Your monthly repayments</h4>
-            <p class="text text--xl">£1,797.74</p>
+            <p class="tesxt text--xl">£1,797.74</p>
           </div>
 
           <div class="card__body">
@@ -41,71 +41,17 @@ import { Component } from '@angular/core';
       }
     </section>
   `,
-  styles: `
-    :host {
-      background: var(--slate-500);
-      border-radius: 0 0 0 8rem;
-    }
-
-    .result {
-      height: 100%;
-
-      .text--lg {
-        color: var(--white-100);
-      }
-
-      .text--sm {
-        color: var(--slate-200);
-      }
-
-      &__empty {
-        height: 100%;
-        padding: 0 var(--spacing-500);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        gap: var(--spacing-200);
-      }
-
-      &__data {
-        display: flex;
-        flex-direction: column;
-        padding: var(--spacing-500);
-        gap: var(--spacing-500);
-      }
-
-      &__head {
-        display: flex;
-        flex-direction: column;
-        gap: 1.6rem;
-      }
-    }
-
-
-    .card {
-      padding: var(--spacing-400);
-      background: var(--black-100);
-      border-radius: 8px;
-      box-shadow: inset 0 4px 0 0 var(--lime-100);
-
-      &__header, &__body {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      &__header {
-        padding-bottom: var(--spacing-400);
-        border-bottom: 1px solid var(--slate-50);
-        .text--xl { color: var(--lime-100); }
-      }
-
-      &__body {
-        padding-top: var(--spacing-400);
-      }
-    }
-  `,
+  styleUrl: './result.component.scss',
 })
-export class ResultComponent {}
+export class ResultComponent {
+  result = input<number>();
+
+  prettyTotal = computed(() => this.result()?.toLocaleString());
+  prettyMonthly = computed(() =>
+    this.result() ? (this.result()! / 12).toLocaleString() : ''
+  );
+
+  constructor() {
+    effect(() => console.log('RESULT: ', this.result()));
+  }
+}

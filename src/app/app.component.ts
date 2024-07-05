@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormComponent } from './ui/form/form.component';
 import { ResultComponent } from './ui/result/result.component';
 
@@ -8,8 +8,8 @@ import { ResultComponent } from './ui/result/result.component';
   imports: [FormComponent, ResultComponent],
   template: `
     <main class="main">
-      <app-form />
-      <app-result />
+      <app-form (onSubmit)="result.set($event)" />
+      <app-result [result]="result()" />
     </main>
   `,
   styles: `
@@ -29,4 +29,6 @@ import { ResultComponent } from './ui/result/result.component';
     }
   `,
 })
-export class AppComponent {}
+export class AppComponent {
+  result = signal<number | undefined>(undefined);
+}

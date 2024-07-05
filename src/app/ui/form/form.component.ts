@@ -10,7 +10,7 @@ import { ButtonComponent } from '../button/button.component';
     <div class="header">
       <h1 class="text text--lg">Mortgage Calculator</h1>
 
-      <button app-button severity="link">
+      <button app-button severity="link" (click)="form.reset()">
         <span slot="label" class="text text--sm">Clear All</span>
       </button>
     </div>
@@ -91,118 +91,12 @@ import { ButtonComponent } from '../button/button.component';
       </div>
     </form>
 
-    <button app-button severity="primary" type="submit">
+    <button app-button severity="primary" type="submit" (click)="calculate()">
       <img slot="icon" src="images/icon-calculator.svg" />
       <span slot="label" class="text text--md">Calculate Repayments</span>
     </button>
   `,
-  styles: `
-    :host {
-      padding: var(--spacing-500);
-      display: inline-grid;
-      grid-template-rows: auto 1fr auto;
-      gap: var(--spacing-500);
-
-      .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing-400);
-
-
-        &__item {
-          display: flex;
-          flex-direction: column;
-          gap: var(--spacing-100);
-          color: var(--slate-400);
-
-          &--full {
-            grid-column: 1 / -1;
-          }
-        }
-
-        &__box {
-          display: flex;
-          overflow: hidden;
-          border: 1px solid var(--slate-300);
-          border-radius: 4px;
-          height: 4.8rem;
-          transition: all .4s;
-
-          &--radio {
-            cursor: pointer;
-            padding-inline: var(--spacing-300);
-            align-items: center;
-            gap: var(--spacing-300);
-            color: var(--slate-500);
-
-            label { flex: 1; }
-
-            &:has(.form__input:hover) {
-              border-color: var(--lime-100) !important;
-            }
-
-            &:has(.form__input:checked) {
-              border-color: var(--lime-100);
-              background: var(--lime-200);
-            }
-          }
-
-          &:has(.form__input:hover) {
-            border-color: var(--slate-500);
-          }
-
-          &:has(.form__input:focus), &:has(.form__input:active) {
-            border-color: var(--lime-100);
-
-            .form__prefix {
-              background: var(--lime-100);
-              color: var(--slate-500);
-            }
-          }
-
-          &:has(.form__input.ng-invalid) {
-            border-color: var(--red-100);
-
-            .form__prefix {
-              color: var(--white-100);
-              background: var(--red-100);
-            }
-          }
-        }
-
-        &__prefix {
-          background: var(--slate-100);
-          padding: var(--spacing-150);
-          transition: background .4s;
-        }
-
-        &__input[type="number"] {
-          border: 0 none;
-          outline: 0 none;
-          font-family: inherit;
-          font-size: 1.8rem;
-          line-height: 125%;
-          font-weight: var(--fw-bold);
-          padding-inline: var(--spacing-200);
-          flex: 1;
-        }
-
-        &__input[type="radio"] {
-          appearance: none;
-          width: 1.95rem;
-          height: 1.95rem;
-          background: red;
-          border-radius: 50%;
-        }
-      }
-    }
-  `,
+  styleUrl: './form.component.scss',
 })
 export class FormComponent {
   #fb = inject(FormBuilder);
@@ -211,8 +105,10 @@ export class FormComponent {
     amount: [300000, [Validators.required]],
     term: [25, [Validators.required]],
     rate: [5, [Validators.required]],
-    type: ['repayments', [Validators.required]],
+    type: ['repayments'],
   });
 
-  onSubmit = output();
+  onSubmit = output<number>();
+
+  calculate() {}
 }
