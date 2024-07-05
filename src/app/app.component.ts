@@ -13,13 +13,19 @@ import { ResultComponent } from './ui/result/result.component';
     </main>
   `,
   styles: `
+    :host {
+      max-width: 144rem;
+      margin: 0 auto;
+      padding: 4.8rem 21.6rem;
+    }
+
     .main {
       background: var(--white-100);
-      height: 60.6rem;
-      width: 1008px;
       border-radius: 2.4rem;
       overflow: hidden;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      filter: drop-shadow(0 3.2rem 6.4rem var(--slate-600));
     }
   `,
 })

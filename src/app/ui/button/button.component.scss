@@ -1,4 +1,4 @@
-.btn {
+:host.btn {
   font-family: inherit;
   display: inline-block;
   cursor: pointer;
@@ -9,32 +9,29 @@
   position: relative;
 
   &--primary {
+    justify-self: start;
     background: var(--lime-100);
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: var(--spacing-150);
     border-radius: 1000px;
   }
 
   &--link {
     background: transparent;
     padding: 0;
-    color: var(--slate-400);
+    color: var(--slate-300);
 
     &::after {
-      transition: all .4s;
       content: "";
-      transform: scaleX(0);
       position: absolute;
-      left: 0;
-      bottom: 1.5px;
-      width: 100%;
+      inset: auto 0 0 0;
       height: 1px;
-      background: var(--slate-300);
+      background: currentColor;
     }
 
-    &:hover::after {
-      transform: scaleX(100%);
+    &:hover {
+      color: var(--slate-500);
     }
   }
 }
