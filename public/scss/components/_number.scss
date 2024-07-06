@@ -1,5 +1,5 @@
 .number {
-  height: 4.8rem;
+  height: var(--spacing-600);
   display: flex;
   border: 1px solid var(--slate-300);
   border-radius: 4px;

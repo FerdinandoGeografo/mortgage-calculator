@@ -1,29 +1,54 @@
+@use "../../../../public/scss/query-mixin" as mixin;
+
 :host {
   padding: var(--spacing-500);
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: var(--spacing-500);
 
+  @include mixin.respond(phone) {
+    padding: var(--spacing-400) var(--spacing-300);
+    gap: var(--spacing-300);
+  }
+
   .heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @include mixin.respond(phone) {
+      flex-direction: column;
+      gap: var(--spacing-100);
+      align-items: start;
+    }
   }
 
   .form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-400);
+    gap: var(--spacing-300);
+
+    @include mixin.respond(phone) {
+      grid-template-columns: 1fr;
+    }
 
     &__item {
       display: flex;
       flex-direction: column;
-      gap: var(--spacing-100);
+      gap: var(--spacing-150);
       color: var(--slate-400);
 
       &--full {
         grid-column: 1 / -1;
       }
+    }
+  }
+
+  .btn--primary {
+    justify-self: start;
+
+    @include mixin.respond(phone) {
+      justify-self: stretch;
     }
   }
 }
