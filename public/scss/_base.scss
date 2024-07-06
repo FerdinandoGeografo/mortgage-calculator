@@ -6,6 +6,10 @@
   box-sizing: inherit;
 }
 
+img {
+  display: block;
+}
+
 html {
   font-size: 10px;
 }
@@ -13,7 +17,7 @@ html {
 body {
   box-sizing: border-box;
   background: var(--slate-100);
+  min-height: 100vh;
   display: grid;
   place-items: center;
-  height: 100vh;
 }

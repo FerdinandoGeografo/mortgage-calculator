@@ -1,32 +1,32 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonComponent } from '../button/button.component';
+import { Result } from '../../app.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonComponent],
+  imports: [ReactiveFormsModule],
   template: `
-    <div class="header">
+    <div class="heading">
       <h1 class="text text--lg">Mortgage Calculator</h1>
 
-      <button app-button severity="link" (click)="form.reset()">
-        <span slot="label" class="text text--sm">Clear All</span>
+      <button class="btn btn--link" (click)="form.reset(); this.onClear.emit()">
+        <span class="text text--sm">Clear All</span>
       </button>
     </div>
 
-    <form class="form" [formGroup]="form">
+    <form class="form" [formGroup]="form" (ngSubmit)="calculate()">
       <div class="form__item form__item--full">
         <label for="amount" class="text text--sm">Mortgage Amount</label>
 
-        <div class="form__box">
-          <div class="form__prefix">
+        <div class="number">
+          <div class="number__affix">
             <span class="text text--md">£</span>
           </div>
           <input
+            class="number__input"
             type="number"
             id="amount"
-            class="form__input"
             formControlName="amount"
           />
         </div>
@@ -35,14 +35,14 @@ import { ButtonComponent } from '../button/button.component';
       <div class="form__item">
         <label for="term" class="text text--sm">Mortgage Term</label>
 
-        <div class="form__box">
+        <div class="number">
           <input
+            class="number__input"
             type="number"
             id="term"
-            class="form__input"
             formControlName="term"
           />
-          <div class="form__prefix">
+          <div class="number__affix">
             <span class="text text--md">years</span>
           </div>
         </div>
@@ -51,14 +51,14 @@ import { ButtonComponent } from '../button/button.component';
       <div class="form__item">
         <label for="rate" class="text text--sm">Interest Rate</label>
 
-        <div class="form__box">
+        <div class="number">
           <input
+            class="number__input"
             type="number"
             id="rate"
-            class="form__input"
             formControlName="rate"
           />
-          <div class="form__prefix">
+          <div class="number__affix">
             <span class="text text--md">%</span>
           </div>
         </div>
@@ -67,33 +67,35 @@ import { ButtonComponent } from '../button/button.component';
       <div class="form__item form__item--full">
         <span class="text text--sm">Mortgage Type</span>
 
-        <div class="form__box form__box--radio">
+        <label for="repayments" class="radio">
           <input
             type="radio"
-            class="form__input"
+            class="radio__input"
             id="repayments"
             value="repayments"
             formControlName="type"
           />
-          <label for="repayments" class="text text--md">Repayments</label>
-        </div>
+          <span for="repayments" class="text text--md radio__label"
+            >Repayments</span
+          >
+        </label>
 
-        <div class="form__box form__box--radio">
+        <label for="interest-only" class="radio">
           <input
             type="radio"
-            class="form__input"
-            id="interest"
-            value="interest"
+            class="radio__input"
+            id="interest-only"
+            value="interest-only"
             formControlName="type"
           />
-          <label for="interest" class="text text--md">Interest Only</label>
-        </div>
+          <span class="text text--md radio__label">Interest Only</span>
+        </label>
       </div>
     </form>
 
-    <button app-button severity="primary" type="submit" (click)="calculate()">
-      <img slot="icon" src="images/icon-calculator.svg" />
-      <span slot="label" class="text text--md">Calculate Repayments</span>
+    <button class="btn btn--primary" type="submit" (click)="calculate()">
+      <img src="images/icon-calculator.svg" />
+      <span class="text text--md">Calculate Repayments</span>
     </button>
   `,
   styleUrl: './form.component.scss',
@@ -104,11 +106,30 @@ export class FormComponent {
   form = this.#fb.group({
     amount: [300000, [Validators.required]],
     term: [25, [Validators.required]],
-    rate: [5, [Validators.required]],
-    type: ['repayments'],
+    rate: [5.25, [Validators.required]],
+    type: ['repayments', [Validators.required]],
   });
 
-  onSubmit = output<number>();
+  onSubmit = output<Result>();
+  onClear = output();
 
-  calculate() {}
+  calculate() {
+    if (!this.form.valid) return;
+    const { amount, term, rate } = this.form.value;
+
+    const monthTerm = term! * 12;
+    const monthRate = rate! / 100 / 12;
+
+    const monthlyResult =
+      amount! *
+      ((monthRate * Math.pow(1 + monthRate, monthTerm)) /
+        (Math.pow(1 + monthRate, monthTerm) - 1));
+
+    this.onSubmit.emit({
+      monthly: monthlyResult,
+      total: monthlyResult * monthTerm,
+    });
+  }
 }
+
+type MortgageType = 'repayments' | 'interest-only';

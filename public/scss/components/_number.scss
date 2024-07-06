@@ -1,0 +1,50 @@
+.number {
+  height: 4.8rem;
+  display: flex;
+  border: 1px solid var(--slate-300);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all .4s;
+
+  &__affix {
+    background: var(--slate-100);
+    padding: var(--spacing-150) var(--spacing-200);
+    transition: background .4s;
+    color: var(--slate-400);
+  }
+
+  &__input {
+    width: 100%;
+    padding-inline: var(--spacing-200);
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 1.8rem;
+    font-weight: var(--fw-bold);
+    line-height: 125%;
+    color: var(--slate-500);
+  }
+
+  &:has(.number__input:hover) {
+    border-color: var(--slate-500);
+  }
+
+  &:has(.number__input:focus),
+  &:has(.number__input:active) {
+    border-color: var(--lime-100);
+
+    .number__affix {
+      background: var(--lime-100);
+      color: var(--slate-500);
+    }
+  }
+
+  &:has(.number__input.ng-invalid) {
+    border-color: var(--red-100);
+
+    .number__affix {
+      background: var(--red-100);
+      color: var(--white-100);
+    }
+  }
+}

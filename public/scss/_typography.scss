@@ -10,6 +10,11 @@ body {
   color: var(--slate-500);
 }
 
+::selection {
+  background-color: var(--slate-100);
+  color: var(--slate-500);
+}
+
 .text {
   color: currentColor;
 

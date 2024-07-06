@@ -1,16 +1,15 @@
-:host.btn {
+.btn {
   font-family: inherit;
-  display: inline-block;
-  cursor: pointer;
   padding: var(--spacing-200) var(--spacing-500);
-  outline: 0 none;
-  border: 0 none;
-  transition: all .4s;
+  border: none;
+  outline: none;
+  cursor: pointer;
   position: relative;
+  transition: all .4s;
 
   &--primary {
     justify-self: start;
-    background: var(--lime-100);
+    background: transparent;
     display: flex;
     align-items: center;
     gap: var(--spacing-150);
@@ -18,31 +17,37 @@
 
     &::after {
       content: "";
-      z-index: 1;
       position: absolute;
       inset: 0;
-      transition: background .4s;
+      z-index: -1;
+      background: var(--lime-100);
+      border-radius: 1000px;
+      transition: all .4s;
     }
 
-    &:hover::after {
-      background: rgba(255, 255, 255, .5);
+    &:hover,
+    &:focus {
+      &::after {
+        opacity: .5;
+      }
     }
   }
 
   &--link {
     background: transparent;
+    color: var(--slate-400);
     padding: 0;
-    color: var(--slate-300);
 
     &::after {
       content: "";
       position: absolute;
-      inset: auto 0 0 0;
+      inset: auto 0 1.5px 0;
       height: 1px;
       background: currentColor;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--slate-500);
     }
   }
