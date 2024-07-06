@@ -29,10 +29,6 @@
     @include mixin.respond(phone) {
       padding: var(--spacing-400) var(--spacing-300);
     }
-
-    &__image {
-      max-width: 19.2rem;
-    }
   }
 
   .data {

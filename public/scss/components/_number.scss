@@ -39,7 +39,7 @@
     }
   }
 
-  &:has(.number__input.ng-invalid) {
+  &:has(.number__input.ng-touched.ng-invalid) {
     border-color: var(--red-100);
 
     .number__affix {

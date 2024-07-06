@@ -1,6 +1,6 @@
 @use "../../../../public/scss/query-mixin" as mixin;
 
-:host {
+.form {
   padding: var(--spacing-500);
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -11,7 +11,7 @@
     gap: var(--spacing-300);
   }
 
-  .heading {
+  &__heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,7 +23,7 @@
     }
   }
 
-  .form {
+  &__controls {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-300);
@@ -31,16 +31,16 @@
     @include mixin.respond(phone) {
       grid-template-columns: 1fr;
     }
+  }
 
-    &__item {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-150);
-      color: var(--slate-400);
+  &__control {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    color: var(--slate-400);
 
-      &--full {
-        grid-column: 1 / -1;
-      }
+    &--full {
+      grid-column: 1 / -1;
     }
   }
 

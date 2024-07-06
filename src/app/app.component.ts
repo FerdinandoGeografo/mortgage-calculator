@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { Result } from './models/types';
 import { FormComponent } from './ui/form/form.component';
 import { ResultComponent } from './ui/result/result.component';
 
@@ -8,7 +9,7 @@ import { ResultComponent } from './ui/result/result.component';
   imports: [FormComponent, ResultComponent],
   template: `
     <main class="main">
-      <app-form (onSubmit)="result.set($event)" (onClear)="result.set(null)" />
+      <app-form (onSubmit)="result.set($event)" (onReset)="result.set(null)" />
       <app-result [result]="result()" />
     </main>
   `,
@@ -18,7 +19,7 @@ import { ResultComponent } from './ui/result/result.component';
     :host {
       max-width: 108.8rem;
       margin: 0 auto;
-      padding: var(--spacing-600) var(--spacing-500);
+      padding: var(--spacing-500);
 
       @include mixin.respond(phone) {
         padding: 0;
@@ -46,8 +47,3 @@ import { ResultComponent } from './ui/result/result.component';
 export class AppComponent {
   result = signal<Result | null>(null);
 }
-
-export type Result = {
-  monthly: number;
-  total: number;
-};

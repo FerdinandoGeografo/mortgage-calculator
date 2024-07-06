@@ -18,6 +18,10 @@ body {
 .text {
   color: currentColor;
 
+  &--error {
+    color: var(--red-100);
+  }
+
   &--xl {
     font-size: 5.6rem;
   }

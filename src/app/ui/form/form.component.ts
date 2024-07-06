@@ -1,135 +1,166 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Result } from '../../app.component';
+import { MortgageType, Result } from '../../models/types';
 
 @Component({
   selector: 'app-form',
   standalone: true,
   imports: [ReactiveFormsModule],
   template: `
-    <div class="heading">
-      <h1 class="text text--lg">Mortgage Calculator</h1>
-
-      <button class="btn btn--link" (click)="form.reset(); this.onClear.emit()">
-        <span class="text text--sm">Clear All</span>
-      </button>
-    </div>
-
     <form class="form" [formGroup]="form" (ngSubmit)="calculate()">
-      <div class="form__item form__item--full">
-        <label for="amount" class="text text--sm">Mortgage Amount</label>
+      <div class="form__heading">
+        <h1 class="text text--lg">Mortgage Calculator</h1>
 
-        <div class="number">
-          <div class="number__affix">
-            <span class="text text--md">£</span>
+        <button type="button" class="btn btn--link" (click)="reset()">
+          <span class="text text--sm">Clear All</span>
+        </button>
+      </div>
+
+      <div class="form__controls">
+        <div class="form__control form__control--full">
+          <label for="amount" class="text text--sm">Mortgage Amount</label>
+
+          <div class="number">
+            <div class="number__affix">
+              <span class="text text--md">£</span>
+            </div>
+            <input
+              class="number__input"
+              type="number"
+              id="amount"
+              formControlName="amount"
+            />
           </div>
-          <input
-            class="number__input"
-            type="number"
-            id="amount"
-            formControlName="amount"
-          />
+
+          @if (form.controls.amount.touched &&
+          form.controls.amount.errors?.['required']) {
+          <span class="text text--xs text--error">This field is required</span>
+          }
+        </div>
+
+        <div class="form__control">
+          <label for="term" class="text text--sm">Mortgage Term</label>
+
+          <div class="number">
+            <input
+              class="number__input"
+              type="number"
+              id="term"
+              formControlName="term"
+            />
+            <div class="number__affix">
+              <span class="text text--md">years</span>
+            </div>
+          </div>
+
+          @if (form.controls.term.touched &&
+          form.controls.term.errors?.['required']) {
+          <span class="text text--xs text--error">This field is required</span>
+          }
+        </div>
+
+        <div class="form__control">
+          <label for="rate" class="text text--sm">Interest Rate</label>
+
+          <div class="number">
+            <input
+              class="number__input"
+              type="number"
+              id="rate"
+              formControlName="rate"
+            />
+            <div class="number__affix">
+              <span class="text text--md">%</span>
+            </div>
+          </div>
+
+          @if (form.controls.rate.touched &&
+          form.controls.rate.errors?.['required']) {
+          <span class="text text--xs text--error">This field is required</span>
+          }
+        </div>
+
+        <div class="form__control form__control--full">
+          <span class="text text--sm">Mortgage Type</span>
+
+          <label for="repayments" class="radio">
+            <input
+              type="radio"
+              class="radio__input"
+              id="repayments"
+              value="repayments"
+              formControlName="type"
+            />
+            <span for="repayments" class="text text--md radio__label"
+              >Repayments</span
+            >
+          </label>
+
+          <label for="interest-only" class="radio">
+            <input
+              type="radio"
+              class="radio__input"
+              id="interest-only"
+              value="interest-only"
+              formControlName="type"
+            />
+            <span class="text text--md radio__label">Interest Only</span>
+          </label>
+
+          @if (form.controls.type.touched &&
+          form.controls.type.errors?.['required']) {
+          <span class="text text--xs text--error">This field is required</span>
+          }
         </div>
       </div>
 
-      <div class="form__item">
-        <label for="term" class="text text--sm">Mortgage Term</label>
-
-        <div class="number">
-          <input
-            class="number__input"
-            type="number"
-            id="term"
-            formControlName="term"
-          />
-          <div class="number__affix">
-            <span class="text text--md">years</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form__item">
-        <label for="rate" class="text text--sm">Interest Rate</label>
-
-        <div class="number">
-          <input
-            class="number__input"
-            type="number"
-            id="rate"
-            formControlName="rate"
-          />
-          <div class="number__affix">
-            <span class="text text--md">%</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form__item form__item--full">
-        <span class="text text--sm">Mortgage Type</span>
-
-        <label for="repayments" class="radio">
-          <input
-            type="radio"
-            class="radio__input"
-            id="repayments"
-            value="repayments"
-            formControlName="type"
-          />
-          <span for="repayments" class="text text--md radio__label"
-            >Repayments</span
-          >
-        </label>
-
-        <label for="interest-only" class="radio">
-          <input
-            type="radio"
-            class="radio__input"
-            id="interest-only"
-            value="interest-only"
-            formControlName="type"
-          />
-          <span class="text text--md radio__label">Interest Only</span>
-        </label>
-      </div>
+      <button class="btn btn--primary">
+        <img src="images/icon-calculator.svg" width="24" height="24" alt="" />
+        <span class="text text--md">Calculate Repayments</span>
+      </button>
     </form>
-
-    <button class="btn btn--primary" type="submit" (click)="calculate()">
-      <img src="images/icon-calculator.svg" />
-      <span class="text text--md">Calculate Repayments</span>
-    </button>
   `,
   styleUrl: './form.component.scss',
 })
 export class FormComponent {
   #fb = inject(FormBuilder);
-
   form = this.#fb.group({
-    amount: [300000, [Validators.required]],
-    term: [25, [Validators.required]],
-    rate: [5.25, [Validators.required]],
-    type: ['repayments', [Validators.required]],
+    amount: this.#fb.control<number | null>(null, Validators.required),
+    term: this.#fb.control<number | null>(null, Validators.required),
+    rate: this.#fb.control<number | null>(null, Validators.required),
+    type: this.#fb.control<MortgageType | null>(null, Validators.required),
   });
 
   onSubmit = output<Result>();
-  onClear = output();
+  onReset = output();
+
+  reset() {
+    this.form.reset();
+    this.onReset.emit();
+  }
 
   calculate() {
-    if (!this.form.valid) return;
-    const { amount, term, rate } = this.form.value;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
-    const monthTerm = term! * 12;
-    const monthRate = rate! / 100 / 12;
+    const { amount, term, rate, type } = this.form.value;
 
-    const monthlyResult =
-      amount! *
-      ((monthRate * Math.pow(1 + monthRate, monthTerm)) /
-        (Math.pow(1 + monthRate, monthTerm) - 1));
+    const monthlyTerm = term! * 12;
+    const annualRate = rate! / 100;
+    const monthlyRate = annualRate / 12;
 
-    this.onSubmit.emit({
-      monthly: monthlyResult,
-      total: monthlyResult * monthTerm,
-    });
+    const result: Partial<Result> = {};
+    if (type === 'repayments') {
+      result.monthly =
+        amount! *
+        ((monthlyRate * Math.pow(1 + monthlyRate, monthlyTerm)) /
+          (Math.pow(1 + monthlyRate, monthlyTerm) - 1));
+    } else {
+      result.monthly = (amount! * annualRate) / 12;
+    }
+    result.total = result.monthly * monthlyTerm;
+    this.onSubmit.emit(result as Result);
   }
 }
-
-type MortgageType = 'repayments' | 'interest-only';

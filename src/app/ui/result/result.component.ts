@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { Result } from '../../app.component';
+import { Result } from '../../models/types';
 
 @Component({
   selector: 'app-result',
@@ -10,9 +10,10 @@ import { Result } from '../../app.component';
     @if(!result()) {
     <div class="empty">
       <img
-        class="empty__image"
         src="images/illustration-empty.svg"
         alt="Illustration"
+        width="192"
+        height="192"
       />
       <h2 class="text text--lg">Results shown here</h2>
       <p class="text text--sm">
