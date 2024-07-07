@@ -14,6 +14,8 @@
   }
 
   &__input {
+    -moz-appearance: textfield;
+    appearance: textfield;
     width: 100%;
     padding-inline: var(--spacing-200);
     border: none;
@@ -23,6 +25,12 @@
     font-weight: var(--fw-bold);
     line-height: 125%;
     color: var(--slate-500);
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 
   &:has(.number__input:hover) {

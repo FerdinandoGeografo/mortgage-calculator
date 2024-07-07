@@ -1,9 +1,11 @@
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  font-display: swap;
-  font-weight: 500, 700;
-  src: url('../fonts/PlusJakartaSans-VariableFont_wght.ttf'), url("../fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf") format("truetype");
-}
+// @font-face {
+//   font-family: "Plus Jakarta Sans";
+//   font-display: swap;
+//   font-weight: 500, 700;
+//   src:
+//     url('../fonts/static/PlusJakartaSans-Medium.ttf'), url('../fonts/static/PlusJakartaSans-Bold.ttf'),
+//     url('../fonts/PlusJakartaSans-VariableFont_wght.ttf'), url("../fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf") format("truetype");
+// }
 
 body {
   font-family: var(--ff);

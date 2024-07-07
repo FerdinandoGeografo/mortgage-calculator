@@ -27,6 +27,7 @@ import { MortgageType, Result } from '../../models/types';
             <input
               class="number__input"
               type="number"
+              inputmode="numeric"
               id="amount"
               formControlName="amount"
             />
@@ -45,6 +46,7 @@ import { MortgageType, Result } from '../../models/types';
             <input
               class="number__input"
               type="number"
+              inputmode="numeric"
               id="term"
               formControlName="term"
             />
@@ -66,8 +68,10 @@ import { MortgageType, Result } from '../../models/types';
             <input
               class="number__input"
               type="number"
+              inputmode="numeric"
               id="rate"
               formControlName="rate"
+              step="0.01"
             />
             <div class="number__affix">
               <span class="text text--md">%</span>
@@ -124,22 +128,23 @@ import { MortgageType, Result } from '../../models/types';
 })
 export class FormComponent {
   #fb = inject(FormBuilder);
-  form = this.#fb.group({
+
+  protected form = this.#fb.group({
     amount: this.#fb.control<number | null>(null, Validators.required),
     term: this.#fb.control<number | null>(null, Validators.required),
-    rate: this.#fb.control<number | null>(null, Validators.required),
+    rate: this.#fb.control<number | null>(null, [Validators.required]),
     type: this.#fb.control<MortgageType | null>(null, Validators.required),
   });
 
-  onSubmit = output<Result>();
-  onReset = output();
+  protected onSubmit = output<Result>();
+  protected onReset = output();
 
-  reset() {
+  protected reset() {
     this.form.reset();
     this.onReset.emit();
   }
 
-  calculate() {
+  protected calculate() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
