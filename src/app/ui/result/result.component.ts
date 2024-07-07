@@ -10,7 +10,7 @@ import { animateChild, query, transition, trigger } from '@angular/animations';
   imports: [CurrencyPipe],
   template: `
     @if(!result()) {
-    <div class="empty" @handle>
+    <div class="empty">
       <img
         src="images/illustration-empty.svg"
         alt="Illustration"
@@ -52,11 +52,7 @@ import { animateChild, query, transition, trigger } from '@angular/animations';
     }
   `,
   styleUrl: './result.component.scss',
-  animations: [
-    trigger('handle', [query('@*', [animateChild()])]),
-    slideRight,
-    slideLeft,
-  ],
+  animations: [slideRight, slideLeft],
 })
 export class ResultComponent {
   result = input<Result | null>();
