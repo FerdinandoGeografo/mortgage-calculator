@@ -11,21 +11,21 @@ import { slideLeft } from '../../animations/slide-left';
     @if(!result()) {
     <div class="empty">
       <img
-        @slideRight
         src="images/illustration-empty.svg"
         alt="Illustration"
         width="192"
         height="192"
+        @slideRight
       />
       <h2 class="text text--lg" @slideLeft>Results shown here</h2>
-      <p @slideRight class="text text--sm">
+      <p class="text text--sm" @slideRight>
         Complete the form and click “calculate repayments” to see what your
         monthly repayments would be.
       </p>
     </div>
     } @else {
     <div class="data">
-      <div class="data__heading">
+      <div class="data__heading" @slideRight>
         <h2 class="text text--lg">Your results</h2>
         <p class="text text--sm">
           Your results are shown below based on the information you provided. To
@@ -34,10 +34,12 @@ import { slideLeft } from '../../animations/slide-left';
         </p>
       </div>
 
-      <div class="data__card">
+      <div class="data__card" @slideLeft>
         <div class="data__monthly">
           <h4 class="text text--sm">Your monthly repayments</h4>
-          <p class="text text--xl">{{ result()!.monthly | currency : '£' }}</p>
+          <p class="text text--xl">
+            {{ result()!.monthly | currency : '£' }}
+          </p>
         </div>
 
         <div class="data__total">

@@ -133,10 +133,12 @@ export class FormComponent implements OnInit {
   #decimalPipe = inject(DecimalPipe);
 
   protected form = this.#fb.nonNullable.group({
-    amount: this.#fb.control<string>('', [Validators.required]),
-    term: this.#fb.control<number | null>(null, [Validators.required]),
-    rate: this.#fb.control<number | null>(null, [Validators.required]),
-    type: this.#fb.control<MortgageType | null>(null, [Validators.required]),
+    amount: this.#fb.control<string>('300,000', [Validators.required]),
+    term: this.#fb.control<number | null>(5, [Validators.required]),
+    rate: this.#fb.control<number | null>(5.5, [Validators.required]),
+    type: this.#fb.control<MortgageType | null>('repayments', [
+      Validators.required,
+    ]),
   });
 
   protected onSubmit = output<Result>();
@@ -154,19 +156,19 @@ export class FormComponent implements OnInit {
       );
     });
 
-    this.form.controls.term.valueChanges.subscribe((value) => {
-      if (!value || value <= 0)
+    this.form.controls.term.valueChanges.subscribe((term) => {
+      if (!term || term <= 0)
         this.form.controls.term.patchValue(null, { emitEvent: false });
 
-      if (value && value > 50)
+      if (term && term > 50)
         this.form.controls.term.patchValue(50, { emitEvent: false });
     });
 
-    this.form.controls.rate.valueChanges.subscribe((value) => {
-      if (!value || value <= 0)
+    this.form.controls.rate.valueChanges.subscribe((rate) => {
+      if (!rate || rate <= 0)
         this.form.controls.rate.patchValue(null, { emitEvent: false });
 
-      if (value && value > 100)
+      if (rate && rate > 100)
         this.form.controls.rate.patchValue(100, { emitEvent: false });
     });
   }
