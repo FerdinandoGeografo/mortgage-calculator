@@ -1,7 +1,8 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { Result } from '../../models/types';
-
+import { Result } from '../../app.component';
+import { slideRight } from '../../animations/slide-right';
+import { slideLeft } from '../../animations/slide-left';
 @Component({
   selector: 'app-result',
   standalone: true,
@@ -10,13 +11,14 @@ import { Result } from '../../models/types';
     @if(!result()) {
     <div class="empty">
       <img
+        @slideRight
         src="images/illustration-empty.svg"
         alt="Illustration"
         width="192"
         height="192"
       />
-      <h2 class="text text--lg">Results shown here</h2>
-      <p class="text text--sm">
+      <h2 class="text text--lg" @slideLeft>Results shown here</h2>
+      <p @slideRight class="text text--sm">
         Complete the form and click “calculate repayments” to see what your
         monthly repayments would be.
       </p>
@@ -47,6 +49,7 @@ import { Result } from '../../models/types';
     }
   `,
   styleUrl: './result.component.scss',
+  animations: [slideRight, slideLeft],
 })
 export class ResultComponent {
   result = input<Result | null>();

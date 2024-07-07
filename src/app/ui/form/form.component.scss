@@ -45,6 +45,7 @@
   }
 
   .btn--primary {
+    color: var(--slate-500);
     justify-self: start;
 
     @include mixin.respond(phone) {

@@ -1,7 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Result } from './models/types';
 import { FormComponent } from './ui/form/form.component';
 import { ResultComponent } from './ui/result/result.component';
+
+export type MortgageType = 'repayments' | 'interest-only';
+export type Result = { monthly: number; total: number };
 
 @Component({
   selector: 'app-root',

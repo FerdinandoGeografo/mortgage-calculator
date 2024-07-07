@@ -1,11 +1,13 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MortgageType, Result } from '../../models/types';
+import { DecimalPipe } from '@angular/common';
+import { MortgageType, Result } from '../../app.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
   imports: [ReactiveFormsModule],
+  providers: [DecimalPipe],
   template: `
     <form class="form" [formGroup]="form" (ngSubmit)="calculate()">
       <div class="form__heading">
@@ -26,7 +28,7 @@ import { MortgageType, Result } from '../../models/types';
             </div>
             <input
               class="number__input"
-              type="number"
+              type="text"
               inputmode="numeric"
               id="amount"
               formControlName="amount"
@@ -126,18 +128,48 @@ import { MortgageType, Result } from '../../models/types';
   `,
   styleUrl: './form.component.scss',
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
   #fb = inject(FormBuilder);
+  #decimalPipe = inject(DecimalPipe);
 
-  protected form = this.#fb.group({
-    amount: this.#fb.control<number | null>(null, Validators.required),
-    term: this.#fb.control<number | null>(null, Validators.required),
+  protected form = this.#fb.nonNullable.group({
+    amount: this.#fb.control<string>('', [Validators.required]),
+    term: this.#fb.control<number | null>(null, [Validators.required]),
     rate: this.#fb.control<number | null>(null, [Validators.required]),
-    type: this.#fb.control<MortgageType | null>(null, Validators.required),
+    type: this.#fb.control<MortgageType | null>(null, [Validators.required]),
   });
 
   protected onSubmit = output<Result>();
   protected onReset = output();
+
+  ngOnInit(): void {
+    this.form.controls.amount.valueChanges.subscribe((amount) => {
+      if (!amount) return;
+
+      const formattedAmount = amount.replace(/\D/g, '').replace(/^0/, '');
+
+      this.form.controls.amount.patchValue(
+        this.#decimalPipe.transform(formattedAmount, '1.0-2', 'en-EN'),
+        { emitEvent: false }
+      );
+    });
+
+    this.form.controls.term.valueChanges.subscribe((value) => {
+      if (!value || value <= 0)
+        this.form.controls.term.patchValue(null, { emitEvent: false });
+
+      if (value && value > 50)
+        this.form.controls.term.patchValue(50, { emitEvent: false });
+    });
+
+    this.form.controls.rate.valueChanges.subscribe((value) => {
+      if (!value || value <= 0)
+        this.form.controls.rate.patchValue(null, { emitEvent: false });
+
+      if (value && value > 100)
+        this.form.controls.rate.patchValue(100, { emitEvent: false });
+    });
+  }
 
   protected reset() {
     this.form.reset();
@@ -149,9 +181,9 @@ export class FormComponent {
       this.form.markAllAsTouched();
       return;
     }
-
     const { amount, term, rate, type } = this.form.value;
 
+    const amountParsed = parseFloat(amount!.replaceAll(',', ''));
     const monthlyTerm = term! * 12;
     const annualRate = rate! / 100;
     const monthlyRate = annualRate / 12;
@@ -159,11 +191,11 @@ export class FormComponent {
     const result: Partial<Result> = {};
     if (type === 'repayments') {
       result.monthly =
-        amount! *
+        amountParsed *
         ((monthlyRate * Math.pow(1 + monthlyRate, monthlyTerm)) /
           (Math.pow(1 + monthlyRate, monthlyTerm) - 1));
     } else {
-      result.monthly = (amount! * annualRate) / 12;
+      result.monthly = (amountParsed * annualRate) / 12;
     }
     result.total = result.monthly * monthlyTerm;
     this.onSubmit.emit(result as Result);

@@ -3,6 +3,7 @@
 :host {
   background: var(--slate-500);
   border-radius: 0 0 0 8rem;
+  overflow-x: hidden;
 
   @include mixin.respond(tablet) {
     border-radius: 0;
