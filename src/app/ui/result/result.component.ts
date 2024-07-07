@@ -3,13 +3,14 @@ import { Component, input } from '@angular/core';
 import { Result } from '../../app.component';
 import { slideRight } from '../../animations/slide-right';
 import { slideLeft } from '../../animations/slide-left';
+import { animateChild, query, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-result',
   standalone: true,
   imports: [CurrencyPipe],
   template: `
     @if(!result()) {
-    <div class="empty">
+    <div class="empty" @handle>
       <img
         src="images/illustration-empty.svg"
         alt="Illustration"
@@ -51,7 +52,11 @@ import { slideLeft } from '../../animations/slide-left';
     }
   `,
   styleUrl: './result.component.scss',
-  animations: [slideRight, slideLeft],
+  animations: [
+    trigger('handle', [query('@*', [animateChild()])]),
+    slideRight,
+    slideLeft,
+  ],
 })
 export class ResultComponent {
   result = input<Result | null>();

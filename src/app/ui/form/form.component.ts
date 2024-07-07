@@ -70,7 +70,6 @@ import { MortgageType, Result } from '../../app.component';
             <input
               class="number__input"
               type="number"
-              inputmode="numeric"
               id="rate"
               formControlName="rate"
               step="0.01"
@@ -132,13 +131,11 @@ export class FormComponent implements OnInit {
   #fb = inject(FormBuilder);
   #decimalPipe = inject(DecimalPipe);
 
-  protected form = this.#fb.nonNullable.group({
-    amount: this.#fb.control<string>('300,000', [Validators.required]),
-    term: this.#fb.control<number | null>(5, [Validators.required]),
-    rate: this.#fb.control<number | null>(5.5, [Validators.required]),
-    type: this.#fb.control<MortgageType | null>('repayments', [
-      Validators.required,
-    ]),
+  protected form = this.#fb.group({
+    amount: this.#fb.control<string>('', [Validators.required]),
+    term: this.#fb.control<number | null>(null, [Validators.required]),
+    rate: this.#fb.control<number | null>(null, [Validators.required]),
+    type: this.#fb.control<MortgageType | null>(null, [Validators.required]),
   });
 
   protected onSubmit = output<Result>();
