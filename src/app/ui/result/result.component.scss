@@ -1,9 +1,10 @@
 @use "../../../../public/scss/query-mixin" as mixin;
 
-:host {
+.result {
   background: var(--slate-500);
   border-radius: 0 0 0 8rem;
   overflow-x: hidden;
+  height: 100%;
 
   @include mixin.respond(tablet) {
     border-radius: 0;
@@ -17,7 +18,7 @@
     color: var(--slate-200);
   }
 
-  .empty {
+  &__empty {
     height: 100%;
     padding: var(--spacing-500);
     display: flex;
@@ -32,7 +33,7 @@
     }
   }
 
-  .data {
+  &__data {
     padding: var(--spacing-500);
     display: flex;
     flex-direction: column;
@@ -42,54 +43,54 @@
       padding: var(--spacing-400) var(--spacing-300);
       gap: var(--spacing-300);
     }
+  }
 
-    &__heading {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-200);
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  &__card {
+    padding: var(--spacing-400);
+    background: var(--black-100);
+    border-radius: 8px;
+    box-shadow: inset 0 4px 0 0 var(--lime-100);
+
+    @include mixin.respond(phone) {
+      padding: var(--spacing-300) var(--spacing-200);
     }
+  }
 
-    &__card {
-      padding: var(--spacing-400);
-      background: var(--black-100);
-      border-radius: 8px;
-      box-shadow: inset 0 4px 0 0 var(--lime-100);
+  &__monthly,
+  &__total {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
 
-      @include mixin.respond(phone) {
-        padding: var(--spacing-300) var(--spacing-200);
-      }
-    }
+  &__monthly {
+    padding-bottom: var(--spacing-400);
+    border-bottom: 1px solid var(--slate-50);
 
-    &__monthly,
-    &__total {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-100);
-    }
-
-    &__monthly {
-      padding-bottom: var(--spacing-400);
-      border-bottom: 1px solid var(--slate-50);
-
-      @include mixin.respond(phone) {
-        padding-bottom: var(--spacing-200);
-
-        .text--xl {
-          font-size: 4rem;
-        }
-      }
+    @include mixin.respond(phone) {
+      padding-bottom: var(--spacing-200);
 
       .text--xl {
-        color: var(--lime-100);
+        font-size: 4rem;
       }
     }
 
-    &__total {
-      padding-top: var(--spacing-400);
+    .text--xl {
+      color: var(--lime-100);
+    }
+  }
 
-      @include mixin.respond(phone) {
-        padding-top: var(--spacing-200);
-      }
+  &__total {
+    padding-top: var(--spacing-400);
+
+    @include mixin.respond(phone) {
+      padding-top: var(--spacing-200);
     }
   }
 }

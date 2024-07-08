@@ -1,59 +1,59 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Result } from '../../app.component';
-import { slideRight } from '../../animations/slide-right';
-import { slideLeft } from '../../animations/slide-left';
-import { animateChild, query, transition, trigger } from '@angular/animations';
+import { resultTransitions } from '../../animations/result-transitions';
 @Component({
   selector: 'app-result',
   standalone: true,
   imports: [CurrencyPipe],
   template: `
-    @if(!result()) {
-    <div class="empty">
-      <img
-        src="images/illustration-empty.svg"
-        alt="Illustration"
-        width="192"
-        height="192"
-        @slideRight
-      />
-      <h2 class="text text--lg" @slideLeft>Results shown here</h2>
-      <p class="text text--sm" @slideRight>
-        Complete the form and click “calculate repayments” to see what your
-        monthly repayments would be.
-      </p>
-    </div>
-    } @else {
-    <div class="data">
-      <div class="data__heading" @slideRight>
-        <h2 class="text text--lg">Your results</h2>
+    <div class="result" [@resultTransitions]="noResult()">
+      @if(!result()) {
+      <div class="result__empty">
+        <img
+          src="images/illustration-empty.svg"
+          alt="Illustration of calculation tools"
+          width="192"
+          height="192"
+        />
+        <h2 class="text text--lg">Results shown here</h2>
         <p class="text text--sm">
-          Your results are shown below based on the information you provided. To
-          adjust the results, edit the form and click "calculate repayments"
-          again.
+          Complete the form and click “calculate repayments” to see what your
+          monthly repayments would be.
         </p>
       </div>
-
-      <div class="data__card" @slideLeft>
-        <div class="data__monthly">
-          <h4 class="text text--sm">Your monthly repayments</h4>
-          <p class="text text--xl">
-            {{ result()!.monthly | currency : '£' }}
+      } @else {
+      <div class="result__data">
+        <div class="result__heading">
+          <h2 class="text text--lg">Your results</h2>
+          <p class="text text--sm">
+            Your results are shown below based on the information you provided.
+            To adjust the results, edit the form and click "calculate
+            repayments" again.
           </p>
         </div>
 
-        <div class="data__total">
-          <h4 class="text text--sm">Total you'll repay over the term</h4>
-          <p class="text text--lg">{{ result()!.total | currency : '£' }}</p>
+        <div class="result__card">
+          <div class="result__monthly">
+            <h4 class="text text--sm">Your monthly repayments</h4>
+            <p class="text text--xl">
+              {{ result()!.monthly | currency : '£' }}
+            </p>
+          </div>
+
+          <div class="result__total">
+            <h4 class="text text--sm">Total you'll repay over the term</h4>
+            <p class="text text--lg">{{ result()!.total | currency : '£' }}</p>
+          </div>
         </div>
       </div>
+      }
     </div>
-    }
   `,
   styleUrl: './result.component.scss',
-  animations: [slideRight, slideLeft],
+  animations: [resultTransitions],
 })
 export class ResultComponent {
   result = input<Result | null>();
+  noResult = computed<boolean>(() => this.result() === null);
 }

@@ -120,7 +120,12 @@ import { MortgageType, Result } from '../../app.component';
       </div>
 
       <button class="btn btn--primary">
-        <img src="images/icon-calculator.svg" width="24" height="24" alt="" />
+        <img
+          src="images/icon-calculator.svg"
+          width="24"
+          height="24"
+          alt="Calculator icon"
+        />
         <span class="text text--md">Calculate Repayments</span>
       </button>
     </form>
@@ -162,7 +167,7 @@ export class FormComponent implements OnInit {
     });
 
     this.form.controls.rate.valueChanges.subscribe((rate) => {
-      if (!rate || rate <= 0)
+      if (rate === null || rate < 0)
         this.form.controls.rate.patchValue(null, { emitEvent: false });
 
       if (rate && rate > 100)
@@ -187,16 +192,19 @@ export class FormComponent implements OnInit {
     const annualRate = rate! / 100;
     const monthlyRate = annualRate / 12;
 
-    const result: Partial<Result> = {};
+    let monthlyResult = 0;
     if (type === 'repayments') {
-      result.monthly =
+      monthlyResult =
         amountParsed *
         ((monthlyRate * Math.pow(1 + monthlyRate, monthlyTerm)) /
           (Math.pow(1 + monthlyRate, monthlyTerm) - 1));
     } else {
-      result.monthly = (amountParsed * annualRate) / 12;
+      monthlyResult = (amountParsed * annualRate) / 12;
     }
-    result.total = result.monthly * monthlyTerm;
-    this.onSubmit.emit(result as Result);
+    monthlyResult &&
+      this.onSubmit.emit({
+        monthly: monthlyResult,
+        total: monthlyResult * monthlyTerm,
+      });
   }
 }

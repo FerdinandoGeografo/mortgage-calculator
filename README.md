@@ -47,9 +47,7 @@ Users should be able to:
 
 ### What I learned
 
-TODO!!
-
-## Author
+In this frontend mentor challenge I had the opportunity to continue my study on the new features introduced by the Angular framework, in particular I also studied the use of Angular animations to have a smooth transition
 
 ## Author
 
