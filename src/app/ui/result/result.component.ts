@@ -54,6 +54,6 @@ import { resultTransitions } from '../../animations/result-transitions';
   animations: [resultTransitions],
 })
 export class ResultComponent {
-  result = input<Result | null>();
+  result = input.required<Result | null>();
   noResult = computed<boolean>(() => this.result() === null);
 }
