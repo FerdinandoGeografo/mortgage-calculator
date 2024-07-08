@@ -20,6 +20,7 @@ export type Result = { monthly: number; total: number };
 
     :host {
       max-width: 108.8rem;
+      width: 100%;
       margin: 0 auto;
       padding: var(--spacing-500);
 
@@ -38,6 +39,7 @@ export type Result = { monthly: number; total: number };
 
       @include mixin.respond(tablet) {
         grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, auto);
       }
 
       @include mixin.respond(phone) {
