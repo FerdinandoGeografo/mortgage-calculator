@@ -137,12 +137,10 @@ export class FormComponent implements OnInit {
   #decimalPipe = inject(DecimalPipe);
 
   protected form = this.#fb.group({
-    amount: this.#fb.control<string>('300,000', [Validators.required]),
-    term: this.#fb.control<number | null>(25, [Validators.required]),
-    rate: this.#fb.control<number | null>(5.25, [Validators.required]),
-    type: this.#fb.control<MortgageType | null>('repayments', [
-      Validators.required,
-    ]),
+    amount: this.#fb.control<string>('', [Validators.required]),
+    term: this.#fb.control<number | null>(null, [Validators.required]),
+    rate: this.#fb.control<number | null>(null, [Validators.required]),
+    type: this.#fb.control<MortgageType | null>(null, [Validators.required]),
   });
 
   protected onSubmit = output<Result>();
