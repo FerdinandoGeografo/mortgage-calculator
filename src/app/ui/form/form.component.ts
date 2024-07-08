@@ -97,7 +97,7 @@ import { MortgageType, Result } from '../../app.component';
               formControlName="type"
             />
             <span for="repayments" class="text text--md radio__label"
-              >Repayments</span
+              >Repayment</span
             >
           </label>
 
