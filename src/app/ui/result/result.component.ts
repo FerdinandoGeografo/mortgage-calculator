@@ -7,7 +7,7 @@ import { resultTransitions } from '../../animations/result-transitions';
   standalone: true,
   imports: [CurrencyPipe],
   template: `
-    <div class="result">
+    <div class="result" [@resultTransitions]="noResult()">
       @if(!result()) {
       <div class="result__empty">
         <img
