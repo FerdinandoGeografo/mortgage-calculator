@@ -35,14 +35,14 @@ import { resultTransitions } from '../../animations/result-transitions';
 
         <div class="result__card">
           <div class="result__monthly">
-            <h4 class="text text--sm">Your monthly repayments</h4>
+            <h3 class="text text--sm">Your monthly repayments</h3>
             <p class="text text--xl">
               {{ result()!.monthly | currency : '£' }}
             </p>
           </div>
 
           <div class="result__total">
-            <h4 class="text text--sm">Total you'll repay over the term</h4>
+            <h3 class="text text--sm">Total you'll repay over the term</h3>
             <p class="text text--lg">{{ result()!.total | currency : '£' }}</p>
           </div>
         </div>

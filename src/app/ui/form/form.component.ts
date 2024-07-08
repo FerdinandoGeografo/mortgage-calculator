@@ -137,10 +137,12 @@ export class FormComponent implements OnInit {
   #decimalPipe = inject(DecimalPipe);
 
   protected form = this.#fb.group({
-    amount: this.#fb.control<string>('', [Validators.required]),
-    term: this.#fb.control<number | null>(null, [Validators.required]),
-    rate: this.#fb.control<number | null>(null, [Validators.required]),
-    type: this.#fb.control<MortgageType | null>(null, [Validators.required]),
+    amount: this.#fb.control<string>('300,000', [Validators.required]),
+    term: this.#fb.control<number | null>(25, [Validators.required]),
+    rate: this.#fb.control<number | null>(5.25, [Validators.required]),
+    type: this.#fb.control<MortgageType | null>('repayments', [
+      Validators.required,
+    ]),
   });
 
   protected onSubmit = output<Result>();
@@ -173,16 +175,6 @@ export class FormComponent implements OnInit {
       if (rate && rate > 100)
         this.form.controls.rate.patchValue(100, { emitEvent: false });
     });
-
-    /* TO REMOVE | SCREENSHOT PURPOSE */
-    this.form.setValue({
-      amount: '300,000',
-      term: 25,
-      rate: 5.25,
-      type: 'repayments',
-    });
-
-    this.calculate();
   }
 
   protected reset() {

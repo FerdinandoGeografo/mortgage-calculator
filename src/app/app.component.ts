@@ -49,5 +49,5 @@ export type Result = { monthly: number; total: number };
   `,
 })
 export class AppComponent {
-  result = signal<Result | null>(null);
+  result = signal<Result | null>({ monthly: 1797.74, total: 539322.94 });
 }
