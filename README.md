@@ -30,8 +30,9 @@ Users should be able to:
 
 ### Screenshots
 
-- ![https://mortgage-calculator-fg.netlify.app/](./screenshot-empty.jpg)
-- ![https://mortgage-calculator-fg.netlify.app/](./screenshot-result.jpg)
+![https://mortgage-calculator-fg.netlify.app/](./screenshot-empty.jpg)
+
+![https://mortgage-calculator-fg.netlify.app/](./screenshot-result.jpg)
 
 ### Links
 

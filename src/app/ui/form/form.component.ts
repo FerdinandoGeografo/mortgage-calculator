@@ -173,6 +173,16 @@ export class FormComponent implements OnInit {
       if (rate && rate > 100)
         this.form.controls.rate.patchValue(100, { emitEvent: false });
     });
+
+    /* TO REMOVE | SCREENSHOT PURPOSE */
+    this.form.setValue({
+      amount: '300,000',
+      term: 25,
+      rate: 5.25,
+      type: 'repayments',
+    });
+
+    this.calculate();
   }
 
   protected reset() {
